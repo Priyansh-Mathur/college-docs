@@ -57,7 +57,7 @@ router.post('/login', async (req, res) => {
    try{
     const user=await User.findOne({email});
     if(user){
-        res.status(400).json({message:"user already exists",success:false})
+        res.status(800).json({message:"user already exists",success:false})
     }
     // hashing the password
     const hashedPassword=await bcrypt.hash(password,10);
