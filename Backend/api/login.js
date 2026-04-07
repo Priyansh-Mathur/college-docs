@@ -4,6 +4,8 @@ const User = require('../models/User'); // import the model
 const bcrypt = require('bcrypt');// does encryption and decruption
 const jwt = require('jsonwebtoken');//does making token only
 
+const JWT_SECRET = process.env.JWT_SECRET || 'secretkey123';
+
 
 // POST /api/login
 router.post('/login', async (req, res) => {
@@ -25,7 +27,7 @@ router.post('/login', async (req, res) => {
     // 3️⃣ Generate JWT token (hardcoded secret for now)
     const token = jwt.sign(
       {id:user._id,email:user.email,year:user.year,branch:user.branch,scholar_id:user.scholar_id},
-      'secretkey123', // use .env later
+      JWT_SECRET,
       { expiresIn: '1h' }
     );
 
@@ -57,7 +59,7 @@ router.post('/login', async (req, res) => {
    try{
     const user=await User.findOne({email});
     if(user){
-        res.status(800).json({message:"user already exists",success:false})
+      return res.status(409).json({message:"user already exists",success:false})
     }
     // hashing the password
     const hashedPassword=await bcrypt.hash(password,10);
@@ -76,7 +78,7 @@ router.post('/login', async (req, res) => {
 
    const token=jwt.sign(
     {id:newUser._id,email:newUser.email,year:newUser.year,branch:newUser.branch,scholar_id:newUser.scholar_id},
-    'secretkey123',
+    JWT_SECRET,
     {expiresIn:'1h'}
    );
 

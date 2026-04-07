@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 
+const JWT_SECRET = process.env.JWT_SECRET || 'secretkey123';
+
 // GET /api/mydocs
 router.get('/myinfo', async (req, res) => {
   try {
@@ -16,7 +18,7 @@ router.get('/myinfo', async (req, res) => {
     const token = authHeader.split(" ")[1];
 
     // 3️⃣ Verify token
-    const decoded = jwt.verify(token, 'secretkey123');
+    const decoded = jwt.verify(token, JWT_SECRET);
 
     // 4️⃣ Return user info from token
     res.status(200).json({

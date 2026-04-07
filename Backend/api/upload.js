@@ -8,8 +8,8 @@ const Document = require('../models/Document');
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() }); // temporarily store buffer
 
-const MONGO_URI = 'mongodb://127.0.0.1:27017';
-const DB_NAME = 'collegeDocsDB';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/collegeDocsDB';
+const DB_NAME = process.env.DB_NAME || 'collegeDocsDB';
 
 router.post('/upload', verifyToken, upload.single('file'), async (req, res) => {
   try {

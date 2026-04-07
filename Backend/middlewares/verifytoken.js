@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 
+const JWT_SECRET = process.env.JWT_SECRET || 'secretkey123';
+
 const verifyToken = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -13,7 +15,7 @@ const verifyToken = (req, res, next) => {
     const token = authHeader.split(' ')[1];
 
     // 3️⃣ Verify token
-    const decoded = jwt.verify(token, 'secretkey123'); // use env variable in production
+    const decoded = jwt.verify(token, JWT_SECRET);
 
     // 4️⃣ Attach user info to request
     // request updated
